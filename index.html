@@ -1,38 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Templater: Stage 1</title>
 </head>
+
 <body>
-    <bootstrap_button 
-        class="btn btn-default some-class" 
-        type="submit"
-    >
-        Simple Text
-    </bootstrap_button>
-    <bootstrap_link 
-        class="btn btn-default some-class" 
-        href="#"
-    >
-    </bootstrap_link>
+    <section id="bootstrap-templates">
+        <bootstrap_button type="submit" class="some-class">
+            Bootstrap Button
+        </bootstrap_button>
+        <bootstrap_link type="submit" class="some-class">
+            Bootstrap Button
+        </bootstrap_link>
+    </section>
+    <section id="foundation-templates">
+        <button type="submit" class="some-class">
+        Foundation Button
+      </button>
+    </section>
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./templater.js"></script>
     <script>
-        Templater.addTag(
-            'bootstrap_link',
-            '<a class="{{class}}" href="{{href}}">' +
-            '{{html}}' +
-            '</a>'
-        );
-        Templater.addTag(
-            'bootstrap_button',
-            '<button class="{{class}}" type="{{type}}">' +
-            '{{html}}' +
-            '</button>'
-        );
-        Templater.run();
+        $('#bootstrap-templates').templater({
+            tags: {
+                'bootstrap_button': '<button class="btn btn-default {{class}}" type="{{type}}">{{html}}</button>',
+                'bootstrap_link': '<a href="#" class="btn btn-default {{class}}">{{html}}</a>'
+            }
+        });
+
+        $('#foundation-templates').templater({
+            tags: {
+                'button': '<button class="button {{class}}" type="{{type}}">{{html}}</button>'
+            }
+        });
     </script>
 </body>
+
 </html>

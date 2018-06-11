@@ -1,40 +1,39 @@
-const Templater = {
-  components: [],
+(function($) {
+    function render(template, element) {
+        const regexp = /{{(.*?)}}/g;
 
-  addTag: function (tag, template) {
-    if (typeof tag === 'undefined' || typeof template === 'undefined')
-      return;
+        return template.replace(regexp, (match, parameter) => {
+            const isHtml = parameter === 'html';
 
-      this.components.push({
-        'tag': tag,
-        'template': template
-      });
-  },
-
-  render: function (template, element) {
-    const regexp = /{{(.*?)}}/g;
-    let params;
-
-    while ((params = regexp.exec(template)) !== null) {
-      const isHtml = params[1] === 'html',
-            htmlText = element.innerHTML.trim(),
-            defaultText = 'Some text';
-
-      if (isHtml) {
-        template = template.replace(params[0], htmlText.length ? htmlText : defaultText);
-      } else {
-        template = template.replace(params[0], element.getAttribute(params[1]));
-      }
+            return isHtml ? element.innerHTML : element.getAttribute(parameter)
+        });
     }
 
-    return template;
-  },
+    function run(elements, tag, template) {
+        elements.each(function(index, element) {
+            element.outerHTML = render(template, element);
+        });
+    }
 
-  run: function () {
-    this.components.forEach(component => {
-      const element = document.querySelector(component.tag);
+    function getTags(element, tags) {
+        Object.keys(tags).map(tag => {
+            if (tags.hasOwnProperty(tag)) {
+                const elements = element.find(tag);
 
-      element.outerHTML = this.render(component.template, element);
-    });
-  }
-};
+                if (elements.length) {
+                    run(elements, tag, tags[tag]);
+                }
+            }
+        });
+    }
+
+    $.fn.templater = function(options) {
+        return this.each(function(index, el) {
+            if (typeof options === 'undefined' || typeof options.tags === 'undefined')
+                return;
+
+            const element = $(el);
+            getTags(element, options.tags);
+        });
+    }
+})(jQuery);
