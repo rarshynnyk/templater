@@ -9,32 +9,18 @@
 </head>
 
 <body>
-    <section id="bootstrap-templates">
-        <bootstrap_button type="submit" class="some-class">
-            Bootstrap Button
-        </bootstrap_button>
-        <bootstrap_link type="submit" class="some-class">
-            Bootstrap Button
-        </bootstrap_link>
-    </section>
-    <section id="foundation-templates">
-        <button type="submit" class="some-class">
-        Foundation Button
-      </button>
-    </section>
+    <panel heading="Outer Panel">
+        <div>Some outer content</div>
+        <panel heading="Inner Panel">
+            <div>Some Inner content</div>
+        </panel>
+    </panel>
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="./templater.js"></script>
     <script>
-        $('#bootstrap-templates').templater({
+        $(document).templater({
             tags: {
-                'bootstrap_button': '<button class="btn btn-default {{class}}" type="{{type}}">{{html}}</button>',
-                'bootstrap_link': '<a href="#" class="btn btn-default {{class}}">{{html}}</a>'
-            }
-        });
-
-        $('#foundation-templates').templater({
-            tags: {
-                'button': '<button class="button {{class}}" type="{{type}}">{{html}}</button>'
+                'panel': '<div class="panel"><div class="panel-heading">{{heading}}</div><div class="panel-body">{{html}}</div></div>'
             }
         });
     </script>

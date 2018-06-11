@@ -5,24 +5,23 @@
         return template.replace(regexp, (index, parameter) => {
             const isHtml = parameter === 'html';
 
-            return isHtml ? element.innerHTML : element.getAttribute(parameter)
+            return isHtml ? element.innerHTML : element.getAttribute(parameter);
         });
     }
 
-    function run(elements, tag, template) {
-        elements.each(function(index, element) {
-            element.outerHTML = render(template, element);
-        });
+    function run(element, tag, template) {
+        const children = element[0].querySelector(tag);
+
+        if (!children) return;
+
+        children.outerHTML = render(template, children);
+        run(element, tag, template);
     }
 
     function getTags(element, tags) {
         Object.keys(tags).map(tag => {
             if (tags.hasOwnProperty(tag)) {
-                const elements = element.find(tag);
-
-                if (elements.length) {
-                    run(elements, tag, tags[tag]);
-                }
+                run(element, tag, tags[tag]);
             }
         });
     }
