@@ -2,7 +2,7 @@
     function render(template, element) {
         const regexp = /{{(.*?)}}/g;
 
-        return template.replace(regexp, (match, parameter) => {
+        return template.replace(regexp, (index, parameter) => {
             const isHtml = parameter === 'html';
 
             return isHtml ? element.innerHTML : element.getAttribute(parameter)
