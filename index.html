@@ -7,21 +7,30 @@
     <title>Templater: Stage 1</title>
 </head>
 <body>
-    <bootstrap_button>Some Text</bootstrap_button>
-    <bootstrap_link>Some Text</bootstrap_link>
+    <bootstrap_button 
+        class="btn btn-default some-class" 
+        type="submit"
+    >
+        Simple Text
+    </bootstrap_button>
+    <bootstrap_link 
+        class="btn btn-default some-class" 
+        href="#"
+    >
+    </bootstrap_link>
     <script src="./templater.js"></script>
     <script>
         Templater.addTag(
-            'bootstrap_button',
-            '<button class="btn btn-default" type="submit">' +
-            'Some Text' +
-            '</button>'
+            'bootstrap_link',
+            '<a class="{{class}}" href="{{href}}">' +
+            '{{html}}' +
+            '</a>'
         );
         Templater.addTag(
-            'bootstrap_link',
-            '<a class="btn btn-default" href="#">' +
-            'Some Another Text' +
-            '</a>'
+            'bootstrap_button',
+            '<button class="{{class}}" type="{{type}}">' +
+            '{{html}}' +
+            '</button>'
         );
         Templater.run();
     </script>
